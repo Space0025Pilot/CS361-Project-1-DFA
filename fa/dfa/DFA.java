@@ -20,6 +20,8 @@ public class DFA implements DFAInterface{
     public DFA() {
         this.startState = "";
         this.finalState = "";
+        states.clear();
+        sigma.clear();
     } 
 
     @Override
