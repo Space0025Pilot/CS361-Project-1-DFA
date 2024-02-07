@@ -1,33 +1,62 @@
 package fa.dfa;
 
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import fa.State;
 
 public class DFA implements DFAInterface{
 
+    /* Variables */
+    public HashSet<String> states;
+    public HashSet<Character> sigma;
+    // public Map<keys,DFA> transitions;
+    private String startState;
+    private String finalState;
+
+
+    /* Constructor */
+    public DFA() {
+        this.startState = "";
+        this.finalState = "";
+    } 
+
     @Override
     public boolean addState(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addState'");
+        boolean response = false;
+        if(!states.contains(name)) {
+            response = true;
+            states.add(name);
+        }
+        return response;
+        
     }
 
     @Override
     public boolean setFinal(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFinal'");
+        boolean response = false;
+        if(states.contains(name)){
+            response = true;
+            this.finalState = name;
+        }
+        return response;
+        
     }
 
     @Override
     public boolean setStart(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setStart'");
+        boolean response = false;
+        if(states.contains(name)){
+            response = true;
+            this.startState = name;
+        }
+        return response;
     }
 
     @Override
     public void addSigma(char symbol) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addSigma'");
+        sigma.add(symbol);
     }
 
     @Override
@@ -50,14 +79,20 @@ public class DFA implements DFAInterface{
 
     @Override
     public boolean isFinal(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isFinal'");
+        boolean response = false;
+        if(name.equals(finalState)){
+            response = true;
+        }
+        return response;
     }
 
     @Override
     public boolean isStart(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isStart'");
+        boolean response = false;
+        if(name.equals(startState)){
+            response = true;
+        }
+        return response;
     }
 
     @Override
