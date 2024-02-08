@@ -1,6 +1,4 @@
-package fa.dfa;
-
-import fa.State;
+package fa;
 
 public class DFAState extends State{
     

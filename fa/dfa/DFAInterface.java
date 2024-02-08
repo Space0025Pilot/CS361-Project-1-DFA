@@ -1,5 +1,6 @@
 package fa.dfa;
 
+import fa.DFA;
 import fa.FAInterface;
 
 

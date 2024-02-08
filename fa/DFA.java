@@ -1,10 +1,10 @@
-package fa.dfa;
+package fa;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import fa.State;
+import fa.dfa.DFAInterface;
 
 public class DFA implements DFAInterface{
 
