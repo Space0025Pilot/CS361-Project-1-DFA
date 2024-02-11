@@ -158,6 +158,7 @@ public class DFA implements DFAInterface{
         }
         // TODO: Check incoming transitions for if in alphabet / states
         // throw new UnsupportedOperationException("Unimplemented method 'addTransition'");
+        return false;
     }
 
     /**
