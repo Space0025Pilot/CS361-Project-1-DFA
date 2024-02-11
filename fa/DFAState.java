@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class DFAState extends State{
     // Variables
-    public Hashtable<String, String> transitions; // Would make K char, but no primitive type allowed...
+    public Hashtable<String, String[]> transitions; // Would make K char, but no primitive type allowed...
     // Will need to convert between String and char for key value
 
     /**
