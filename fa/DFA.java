@@ -29,7 +29,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @author Caityln & Olivia
      * @param name is the label of the state
      * @return
      */
@@ -85,28 +85,28 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @author Olivia Hill
+     * Simulates a DFA on input s to determine
+     * whether the DFA accepts s.
      * @param s - the input string
      * @return
      */
     @Override
     public boolean accepts(String s) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accepts'");
+        return false;
     }
 
     /**
-     *
+     * @author Olivia
      * @return
      */
     @Override
     public Set<Character> getSigma() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSigma'");
+        return sigma;
     }
 
     /**
-     *
+     * @Caitlyn
      * @param name of a state
      * @return
      */
@@ -119,7 +119,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @Caitlyn
      * @param name the name of the state
      * @return
      */
@@ -133,7 +133,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @Caitlyn
      * @param name the name of the state
      * @return
      */
@@ -171,6 +171,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
+     * @Olivia Hill
      * Creates a deep copy of this DFA
      * which transitions labels are
      * swapped between symbols symb1
@@ -186,7 +187,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @Caitlyn
      * @return
      */
     @Override
