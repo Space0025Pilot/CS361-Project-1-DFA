@@ -1,6 +1,13 @@
 package fa;
 
+import java.util.Hashtable;
+
 public abstract class State {
+	// Variables
+	public Hashtable<String, String> transitions; // Would make K char, but no primitive type allowed...
+	// Will need to convert between String and char for key value
+
+
 	/**
 	 * The state label.
 	 * It should be a unique name set by 
@@ -8,7 +15,10 @@ public abstract class State {
 	 * @author elenasherman
 	 */
 	private String name;
-	
+
+	/**
+	 *
+	 */
 	public State() {
 		
 	}
@@ -30,7 +40,25 @@ public abstract class State {
 	public String getName(){
 		return name;
 	}
-	
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o == this)
+		{
+			return true;
+		}
+		if (name == o.toString())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
 	@Override
 	public String toString(){
 		return name;
