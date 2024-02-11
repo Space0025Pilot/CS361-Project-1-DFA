@@ -28,7 +28,7 @@ public class DFAState extends State{
      * This way name instance variable is
      * correctly set.
      */
-    public State(String name) {
+    public void State(String name) {
         this.name = name;
     }
 

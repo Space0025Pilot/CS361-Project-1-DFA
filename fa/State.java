@@ -1,7 +1,5 @@
 package fa;
 
-import java.util.Hashtable;
-
 public abstract class State {
 
 	/**

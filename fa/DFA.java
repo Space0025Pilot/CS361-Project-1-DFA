@@ -10,7 +10,7 @@ import fa.DFAState;
 public class DFA implements DFAInterface{
 
     /* Variables */
-    public HashSet<DFAState> states; // I changed from String to State
+    public HashSet<String> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
     DFAState stateObjs[];
     // Allows State obj access ^, and to access states in order created
@@ -112,9 +112,9 @@ public class DFA implements DFAInterface{
      */
     @Override
     public State getState(String name) {
-        State state;
+        DFAState state;
         if(states.contains(name)){
-            state = name;
+            state = states; //TODO FIX THIS!!
         }
     }
 
