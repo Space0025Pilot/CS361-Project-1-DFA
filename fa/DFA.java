@@ -11,6 +11,8 @@ public class DFA implements DFAInterface{
     /* Variables */
     public HashSet<String> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
+    DFAState stateObjs[];
+    // Allows State obj access ^, and to access states in order created
     public HashSet<Character> sigma;
     private String startState;
     private String finalState;
@@ -37,9 +39,9 @@ public class DFA implements DFAInterface{
         if(!states.contains(name)) {
             response = true;
             states.add(name);
+            stateObjs[stateObjs.length] = new DFAState(name);
         }
         return response;
-        
     }
 
     /**
@@ -142,11 +144,11 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     *
+     * @author Olivia Hill
      * @param fromState is the label of the state where the transition starts
      * @param toState is the label of the state where the transition ends
      * @param onSymb is the symbol from the DFA's alphabet.
-     * @return
+     * @return boolean is if the transition was valid and added
      */
     @Override
     public boolean addTransition(String fromState, String toState, char onSymb) {
@@ -155,9 +157,13 @@ public class DFA implements DFAInterface{
         {
             validTransition = true;
             // add transition to State's transition hash table
+            for (int i = 0; i < states.size(); i++) {
+                if (fromState == stateObjs[i].getName())
+                {
+                    stateObjs[i].transitions.put(String.valueOf(onSymb), toState);
+                }
+            }
         }
-        // TODO: Check incoming transitions for if in alphabet / states
-        // throw new UnsupportedOperationException("Unimplemented method 'addTransition'");
         return false;
     }
 

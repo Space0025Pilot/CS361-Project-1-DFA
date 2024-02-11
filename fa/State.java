@@ -3,10 +3,6 @@ package fa;
 import java.util.Hashtable;
 
 public abstract class State {
-	// Variables
-	public Hashtable<String, String> transitions; // Would make K char, but no primitive type allowed...
-	// Will need to convert between String and char for key value
-
 
 	/**
 	 * The state label.
@@ -39,20 +35,6 @@ public abstract class State {
 	 */
 	public String getName(){
 		return name;
-	}
-
-	@Override
-	public boolean equals(Object o)
-	{
-		if (o == this)
-		{
-			return true;
-		}
-		if (name == o.toString())
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
