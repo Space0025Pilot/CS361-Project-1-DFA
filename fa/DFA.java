@@ -5,12 +5,14 @@ import java.util.Hashtable; // For transitions
 import java.util.Set; // DFA elements that are sets, e.g., set of states Q, must be implemented
 
 import fa.dfa.DFAInterface;
+import fa.DFAState;
 
 public class DFA implements DFAInterface{
 
     /* Variables */
-    public HashSet<String> states; // I changed from String to State
+    public HashSet<DFAState> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
+    public Hashtable<Character, String> transitions; //key value - transition : V is the from State
     public HashSet<Character> sigma;
     private String startState;
     private String finalState;
@@ -22,8 +24,7 @@ public class DFA implements DFAInterface{
     public DFA() {
         this.startState = "";
         this.finalState = "";
-        states.clear(); // NullPtr exception warning?
-        sigma.clear();
+        
     }
 
     /**
@@ -36,6 +37,7 @@ public class DFA implements DFAInterface{
         boolean response = false;
         if(!states.contains(name)) {
             response = true;
+            // DFAState newState = createNewState(name);
             states.add(name);
         }
         return response;
@@ -109,8 +111,10 @@ public class DFA implements DFAInterface{
      */
     @Override
     public State getState(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getState'");
+        State state;
+        if(states.contains(name)){
+            state = name;
+        }
     }
 
     /**
@@ -185,6 +189,19 @@ public class DFA implements DFAInterface{
     {
         // The states and the symbols must appear in
         // the same order as they added to a DFA in a test case.
+        String printStates = "";
+        String printAlphabet = "";
+        for(String state : states){
+            printStates+= state + " ";
+        }
+        for(Character alpha: sigma){
+            printAlphabet+= alpha + " ";
+        }
+        System.out.println("Q = {" + printStates + "}");
+        System.out.println("Sigma = {" + printAlphabet + "}");
+        System.out.println("Delta = "); //TODO stil not sure how we want transitions to go yet
+        System.out.println("q0 = " + startState);
+        System.out.println("F = {" + finalState + "}");
         return "";
     }
     

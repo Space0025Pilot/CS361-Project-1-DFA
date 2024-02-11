@@ -3,9 +3,10 @@ package fa;
 import java.util.Hashtable;
 
 public abstract class State {
-	// Variables
-	public Hashtable<String, String> transitions; // Would make K char, but no primitive type allowed...
-	// Will need to convert between String and char for key value
+	//Not sure we should modify this class, since it is already done we can add all of our new stuff in the DFA state class since it extends this anyhow.
+	// // Variables
+	// public Hashtable<String, String> transitions; // Would make K char, but no primitive type allowed...
+	// // Will need to convert between String and char for key value
 
 
 	/**
