@@ -1,6 +1,6 @@
 package fa;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Hashtable; // For transitions
 import java.util.Map;
 import java.util.Set; // DFA elements that are sets, e.g., set of states Q, must be implemented
@@ -11,75 +11,91 @@ import fa.DFAState;
 public class DFA implements DFAInterface{
 
     /* Variables */
-    public HashSet<String> states; // I changed from String to State
+    public LinkedHashSet<DFAState> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
-    DFAState stateObjs[];
+    DFAState stateObjs[]; //TODO we may want to change this to just being the LinkedHashSets, but can ask for clarifiction
     // Allows State obj access ^, and to access states in order created
-    public HashSet<Character> sigma;
-    private String startState;
-    private String finalState;
+    public LinkedHashSet<Character> sigma;
+    public LinkedHashSet<DFAState> startState;
+    public LinkedHashSet<DFAState> finalState;
 
 
     /**
-     * Constructor
+     * @author Caitlyn
+     * Constructor for a DFA
      */
     public DFA() {
-        this.startState = "";
-        this.finalState = "";
+        this.startState = new LinkedHashSet<DFAState>();
+        this.finalState = new LinkedHashSet<DFAState>();
+        this.states = new LinkedHashSet<DFAState>();
+        this.sigma = new LinkedHashSet<Character>();
         
     }
 
     /**
      * @author Caityln & Olivia
+     * Adds a a state to the FA instance
      * @param name is the label of the state
-     * @return
+     * @return boolean whether the new state is created (true) or not created as it already exists (false)
      */
     @Override
     public boolean addState(String name) {
         boolean response = false;
-        if(!states.contains(name)) {
+        for(DFAState state : states){
+            if(name.equals(state.getName())) {
+                response = false;
+                return response;
+            }
             response = true;
-            // DFAState newState = createNewState(name);
-            states.add(name);
+            DFAState newState = new DFAState(name);
+            states.add(newState);
             stateObjs[stateObjs.length] = new DFAState(name);
         }
+        
         return response;
     }
 
     /**
-     *
-     * @param name is the label of the state
-     * @return
-     */
+     * @author Caitlyn
+	 * Marks an existing state as an accepting state
+	 * @param name is the label of the state
+	 * @return true if successful and false if no state with such name exists
+	 */
     @Override
     public boolean setFinal(String name) {
         boolean response = false;
-        if(states.contains(name)){
-            response = true;
-            this.finalState = name;
+        for(DFAState state : states){
+            if(name.equals(state.getName())) { 
+                response = true;
+                finalState.add(state);
+            }
         }
         return response;
     }
 
     /**
-     *
-     * @param name is the label of the start state
-     * @return
-     */
+     * @author Caitlyn
+	 * Adds the initial state to the DFA instance
+	 * @param name is the label of the start state
+	 * @return true if successful and false if no state with such name exists
+	 */
     @Override
     public boolean setStart(String name) {
         boolean response = false;
-        if(states.contains(name)){
-            response = true;
-            this.startState = name;
+        for(DFAState state : states){
+            if(name.equals(state.getName())) { 
+                response = true;
+                startState.add(state);
+            }
         }
         return response;
     }
 
     /**
-     *
-     * @param symbol to add to the alphabet set
-     */
+     * @author Caitlyn and Olivia
+	 * Adds a symbol to Sigma
+	 * @param symbol to add to the alphabet set
+	 */
     @Override
     public void addSigma(char symbol) {
         sigma.add(symbol);
@@ -90,7 +106,7 @@ public class DFA implements DFAInterface{
      * Simulates a DFA on input s to determine
      * whether the DFA accepts s.
      * @param s - the input string
-     * @return
+     * @return true if s in the language of the DFA and false otherwise
      */
     @Override
     public boolean accepts(String s) {
@@ -99,8 +115,9 @@ public class DFA implements DFAInterface{
 
     /**
      * @author Olivia
-     * @return
-     */
+	 * Getter for Sigma
+	 * @return the alphabet of FA
+	 */
     @Override
     public Set<Character> getSigma() {
         return sigma;
@@ -108,47 +125,58 @@ public class DFA implements DFAInterface{
 
     /**
      * @Caitlyn
-     * @param name of a state
-     * @return
-     */
+	 * Returns state with the given name, or null if none exists
+	 * @param name of a state
+	 * @return state object or null
+	 */
     @Override
     public State getState(String name) {
-        DFAState state;
-        if(states.contains(name)){
-            state = states; //TODO FIX THIS!!
+        DFAState stateChoosen = null;
+        for(DFAState state : states){
+            if(name.equals(state.getName())){
+                stateChoosen = state;
+            }
         }
+        return stateChoosen;
     }
 
     /**
      * @Caitlyn
-     * @param name the name of the state
-     * @return
-     */
+     * Determines if a state with a given name is final
+	 * @param name the name of the state
+	 * @return true if a state with that name exists and it is final
+	 */
     @Override
     public boolean isFinal(String name) {
         boolean response = false;
-        if(name.equals(finalState)){
-            response = true;
+        for(DFAState state : finalState){
+            if(name.equals(state.getName())) { 
+                response = true;
+            }
         }
         return response;
     }
 
     /**
-     * @Caitlyn
-     * @param name the name of the state
-     * @return
-     */
+     * @author Caitlyn
+	 * Determines if a state with name is final
+	 * @param name the name of the state
+	 * @return true if a state with that name exists and it is the start state
+	 */
     @Override
     public boolean isStart(String name) {
         boolean response = false;
-        if(name.equals(startState)){
-            response = true;
+        for(DFAState state : startState){
+            if(name.equals(state.getName())) { 
+                response = true;
+            }
         }
         return response;
     }
 
     /**
      * @author Olivia Hill
+     * Adds the transition to the DFA's delta data structure
      * @param fromState is the label of the state where the transition starts
      * @param toState is the label of the state where the transition ends
      * @param onSymb is the symbol from the DFA's alphabet.
@@ -199,7 +227,7 @@ public class DFA implements DFAInterface{
      * and symb2.
      * @param symb1
      * @param symb2
-     * @return
+     * @return a copy of this DFA
      */
     @Override
     public DFA swap(char symb1, char symb2) {
@@ -229,9 +257,22 @@ public class DFA implements DFAInterface{
 
 
     /**
-     * @Caitlyn
-     * @return
-     */
+     * @author Caitlyn
+	 * Construct the textual representation of the DFA, for example
+	 * A simple two state DFA
+	 * Q = { a b }
+	 * Sigma = { 0 1 }
+	 * delta =
+	 *		0	1	
+	 *	a	a	b	
+	 *	b	a	b	
+	 * q0 = a
+	 * F = { b }
+	 * 
+	 * The order of the states and the alphabet is the order
+	 * in which they were instantiated in the DFA.
+	 * @return String representation of the DFA
+	 */
     @Override
     public String toString()
     {
@@ -239,8 +280,8 @@ public class DFA implements DFAInterface{
         // the same order as they added to a DFA in a test case.
         String printStates = "";
         String printAlphabet = "";
-        for(String state : states){
-            printStates+= state + " ";
+        for(DFAState state : states){
+            printStates+= state.getName() + " ";
         }
         for(Character alpha: sigma){
             printAlphabet+= alpha + " ";

@@ -10,11 +10,8 @@ public abstract class State {
 	 */
 	private String name;
 
-	/**
-	 *
-	 */
-	public State() {
-		
+	public State(){
+
 	}
 	
 	/**
@@ -23,7 +20,7 @@ public abstract class State {
 	 * This way name instance variable is 
 	 * correctly set.
 	 */
-	public State(String name) {
+	public void State(String name) {
 		this.name = name;
 	}
 	
@@ -36,8 +33,8 @@ public abstract class State {
 	}
 
 	/**
-	 *
-	 * @return
+	 * Simply provides the string of the name
+	 * @return s string representation of the object
 	 */
 	@Override
 	public String toString(){
