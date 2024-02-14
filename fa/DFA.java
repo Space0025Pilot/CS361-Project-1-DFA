@@ -190,27 +190,27 @@ public class DFA implements DFAInterface{
         {   // add transition to State's transition hash table
             validTransition = true;
 
-            for (int i = 0; i < states.size(); i++) { // Find state to add transition entry to (from-state)
-                if (fromState == stateObjs[i].getName())
+            for (DFAState state : states) { // Find state to add transition entry to (from-state)
+                if (fromState == state.getName())
                 { // State found, from-state == stateObjs[i]
-                    if (stateObjs[i].transitions.containsKey(toState)) // toState already exists in transition table
+                    if (state.transitions.containsKey(toState)) // toState already exists in transition table
                     {
                         // Iterate through to see if onSymb transition already exists
-                        for (int j = 0; j < stateObjs[i].transitions.get(toState).length; j++) {
-                            if (stateObjs[i].transitions.get(toState)[j] == String.valueOf(onSymb))
+                        for (int j = 0; j < state.transitions.get(toState).length; j++) {
+                            if (state.transitions.get(toState)[j] == String.valueOf(onSymb))
                             {
                                 validTransition = false;
                             }
                         }
                         if (validTransition) // New transition added to value
                         {
-                            stateObjs[i].transitions.get(toState)[stateObjs[i].transitions.get(toState).length] = String.valueOf(onSymb); // If new symb for transition, add to value
+                            state.transitions.get(toState)[state.transitions.get(toState).length] = String.valueOf(onSymb); // If new symb for transition, add to value
                         }
                     }
                     else { // toState not already in transition table, create new entry
                         String values[] = new String[50];  // TODO: Decide max symbols on single transition
                         values[0] = String.valueOf(onSymb);
-                        stateObjs[i].transitions.put(toState, values);
+                        state.transitions.put(toState, values);
                     }
                     validTransition = true;
                 }
@@ -231,25 +231,25 @@ public class DFA implements DFAInterface{
      */
     @Override
     public DFA swap(char symb1, char symb2) {
-        DFA swappedDfa = this;
-        for (int i = 0; i < swappedDfa.stateObjs.length; i++) { // For each state object
-                for (String key : swappedDfa.stateObjs[i].transitions.keySet()) // Each transition set key/val pair
+        DFA swappedDfa = this; //swappedDfa.stateObjs[i].transitions.keySet()
+        for (DFAState state : swappedDfa.states) { // For each state object
+                for (String key : state.transitions.keySet()) // Each transition set key/val pair
                 {
                     String[] subValue = new String[this.sigma.size()];
-                    for (int j = 0; j < swappedDfa.stateObjs[i].transitions.get(key).length; j++) { // Each transition per key
-                        if (swappedDfa.stateObjs[i].transitions.get(key)[j] == String.valueOf(symb1))
+                    for (int j = 0; j < state.transitions.get(key).length; j++) { // Each transition per key
+                        if (state.transitions.get(key)[j] == String.valueOf(symb1))
                         {
                             subValue[j] = String.valueOf(symb2);
                         }
-                        else if (swappedDfa.stateObjs[i].transitions.get(key)[j] == String.valueOf(symb2))
+                        else if (state.transitions.get(key)[j] == String.valueOf(symb2))
                         {
                             subValue[j] = String.valueOf(symb1);
                         }
                         else {
-                            subValue[j] = swappedDfa.stateObjs[i].transitions.get(key)[j];
+                            subValue[j] = state.transitions.get(key)[j];
                         }
                     }
-                    swappedDfa.stateObjs[i].transitions.replace(key, subValue); // FIXME: max array size now set, but could change later....
+                    state.transitions.replace(key, subValue); // TODO: max array size now set, but could change later....
                 }
         }
         return swappedDfa;
