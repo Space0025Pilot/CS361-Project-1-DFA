@@ -13,8 +13,6 @@ public class DFA implements DFAInterface{
     /* Variables */
     public LinkedHashSet<DFAState> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
-    DFAState stateObjs[]; //TODO we may want to change this to just being the LinkedHashSets, but can ask for clarifiction
-    // Allows State obj access ^, and to access states in order created
     public LinkedHashSet<Character> sigma;
     public LinkedHashSet<DFAState> startState;
     public LinkedHashSet<DFAState> finalState;
@@ -41,17 +39,25 @@ public class DFA implements DFAInterface{
     @Override
     public boolean addState(String name) {
         boolean response = false;
-        for(DFAState state : states){
-            if(name.equals(state.getName())) {
-                response = false;
-                return response;
-            }
+
+        if (states.size() == 0)
+        {
             response = true;
             DFAState newState = new DFAState(name);
             states.add(newState);
-            stateObjs[stateObjs.length] = new DFAState(name);
         }
-        
+        else {
+            for(DFAState state : states){
+                if(name.equals(state.getName())) {
+                    response = false;
+                    return response;
+                }
+                response = true;
+                DFAState newState = new DFAState(name);
+                states.add(newState);
+            }
+        }
+
         return response;
     }
 
@@ -185,15 +191,33 @@ public class DFA implements DFAInterface{
     @Override
     public boolean addTransition(String fromState, String toState, char onSymb) {
         boolean validTransition = false;
-
-        if (states.contains(fromState) && states.contains(toState) && sigma.contains(onSymb))
-        {   // add transition to State's transition hash table
+        int checks = 0;
+        for (DFAState state : states) {
+            if (state.getName() == fromState)
+            {
+                checks++;
+            }
+            if (state.getName() == toState)
+            {
+                checks++;
+            }
+        }
+        if (sigma.contains(onSymb))
+        {
+            checks++;
+        }
+        if (checks == 3)
+        {
             validTransition = true;
+        }
+        if (validTransition)
+        {   // add transition to State's transition hash table
 
             for (DFAState state : states) { // Find state to add transition entry to (from-state)
                 if (fromState == state.getName())
                 { // State found, from-state == stateObjs[i]
-                    if (state.transitions.containsKey(toState)) // toState already exists in transition table
+                    if (state.transitions.containsKey(toState)) //  FIXME  Looks for string not state
+                        // toState already exists in transition table
                     {
                         // Iterate through to see if onSymb transition already exists
                         for (int j = 0; j < state.transitions.get(toState).length; j++) {
@@ -208,11 +232,11 @@ public class DFA implements DFAInterface{
                         }
                     }
                     else { // toState not already in transition table, create new entry
+                        //validTransition = true;
                         String values[] = new String[50];  // TODO: Decide max symbols on single transition
                         values[0] = String.valueOf(onSymb);
                         state.transitions.put(toState, values);
                     }
-                    validTransition = true;
                 }
             }
         }
