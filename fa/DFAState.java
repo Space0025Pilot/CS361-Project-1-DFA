@@ -14,5 +14,6 @@ public class DFAState extends State{
      */
     public DFAState(String name) {
         super.State(name);
+        this.transitions = new Hashtable<String, String[]>();
     }
 }
