@@ -1,12 +1,12 @@
 package fa;
 
 import java.util.LinkedHashSet;
-import java.util.Hashtable; // For transitions
+// import java.util.Hashtable; // For transitions
 import java.util.Map;
 import java.util.Set; // DFA elements that are sets, e.g., set of states Q, must be implemented
 
 import fa.dfa.DFAInterface;
-import fa.DFAState;
+// import fa.DFAState;
 
 public class DFA implements DFAInterface{
 
@@ -393,11 +393,11 @@ public class DFA implements DFAInterface{
         //public LinkedHashSet<DFAState> finalStates;
         DFA newDfa = new DFA();
 
-        LinkedHashSet states = new LinkedHashSet<DFAState>();
+        LinkedHashSet<DFAState> states = new LinkedHashSet<DFAState>();
         states = dfa.states;
         newDfa.states = states;
 
-        LinkedHashSet sigma = new LinkedHashSet<Character>();
+        LinkedHashSet<Character> sigma = new LinkedHashSet<Character>();
         sigma = dfa.sigma;
         newDfa.sigma = sigma;
 
@@ -405,7 +405,7 @@ public class DFA implements DFAInterface{
         DFAState start = new DFAState(name);
         newDfa.startState = start;
 
-        LinkedHashSet finals = new LinkedHashSet<DFAState>();
+        LinkedHashSet<DFAState> finals = new LinkedHashSet<DFAState>();
         finals = dfa.finalStates;
         newDfa.finalStates = finals;
 
