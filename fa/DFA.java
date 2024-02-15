@@ -448,7 +448,7 @@ public class DFA implements DFAInterface{
         }
         System.out.println("Q = {" + " " + printStates + "}");
         System.out.println("Sigma = {" + " " + printAlphabet + "}");
-        System.out.println("Delta = "); //TODO stil not sure how we want transitions to go yet
+        System.out.println("delta = "); //TODO stil not sure how we want transitions to go yet
         System.out.println("q0 = " + startState);
         System.out.println("F = {" + " " + printFinals + "}");
         return "";
