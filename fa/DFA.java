@@ -496,46 +496,28 @@ public class DFA implements DFAInterface{
             subSigma[index] = String.valueOf(c);
             index++;
         }
-        /*
-    for each state (in order of print table
-	for each sigma (in order, or reverse order? of print table))
-		for each transition entry of state
-			for each String in entry.value()
-				if(String == String(sigma))
-					print entry.key() (the toState for transition)
-     */
+        //TODO I think the way that these are added to the table is stumping me. I did the psuedocode however I am then crashing it.
+
         for(DFAState s : states){  //Each state in the state linked hashset
             System.out.print(" " + s.getName() + "   ");
-            for(int i = 0; i < subSigma.length; i++) {
-                for(Map.Entry<String, String[]> entry : s.transitions.entrySet()){ // Each toState with it's respective transitions
-                    for(String param : entry.getValue()){
-                        if(param.equals(subSigma[i])) {
-                            System.out.print(entry.getKey());
-                        }
+            for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) {
+                try{
+                    for (int i = 0; i < subSigma.length; i++) { // Each transition
+                        // if(subSigma[i].equals(entry.getValue()[i])){
+                        //     System.out.print(entry.getKey() + "   ");
+                        // }
+                       String c = "";
+                       c = entry.getValue()[i];
+                       if(c != null){
+                        System.out.print(entry.getKey() + "   ");
+                       }
                     }
                 }
+                catch (NullPointerException npe)
+                {
+                    break;
+                }
             }
-            // for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) 
-        //     {
-        //         try{
-        //             for (int i = subSigma.length; i >= 0; i--) { // Each transition
-        //                 if(subSigma[i].equals(entry.getValue()[i])){
-        //                     System.out.print(entry.getKey() + "   ");
-        //                 }
-        //             //    String c = "";
-        //             //    c = entry.getValue()[i];
-        //             //    if(c != null){
-        //             //     System.out.print(entry.getKey() + "   ");
-        //             //    }
-        //             }
-        //         }
-        //         catch (NullPointerException npe)
-        //         {
-        //             break;
-        //         }
-                
-
-        //     }
             System.out.println();
         }
         System.out.println("q0 = " + startState);
