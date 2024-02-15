@@ -14,8 +14,8 @@ public class DFA implements DFAInterface{
     public LinkedHashSet<DFAState> states; // I changed from String to State
     // also thinking about ^this^ but with type as State, but that makes it hard....
     public LinkedHashSet<Character> sigma;
-    public LinkedHashSet<DFAState> startState;
-    public LinkedHashSet<DFAState> finalState;
+    public DFAState startState;
+    public LinkedHashSet<DFAState> finalStates;
 
 
     /**
@@ -23,11 +23,18 @@ public class DFA implements DFAInterface{
      * Constructor for a DFA
      */
     public DFA() {
-        this.startState = new LinkedHashSet<DFAState>();
-        this.finalState = new LinkedHashSet<DFAState>();
+        this.startState = null;
+        this.finalStates = new LinkedHashSet<DFAState>();
         this.states = new LinkedHashSet<DFAState>();
         this.sigma = new LinkedHashSet<Character>();
-        
+    }
+
+    public DFA(DFAState start, LinkedHashSet<DFAState>finals, LinkedHashSet<DFAState> states, LinkedHashSet<Character> sigma)
+    {
+        this.startState = start;
+        this.finalStates = finals;
+        this.states = states;
+        this.sigma = sigma;
     }
 
     /**
@@ -73,7 +80,8 @@ public class DFA implements DFAInterface{
         for(DFAState state : states){
             if(name.equals(state.getName())) { 
                 response = true;
-                finalState.add(state);
+                finalStates.add(state);
+                state.finalState = true;
             }
         }
         return response;
@@ -91,7 +99,8 @@ public class DFA implements DFAInterface{
         for(DFAState state : states){
             if(name.equals(state.getName())) { 
                 response = true;
-                startState.add(state);
+                startState = new DFAState(name);
+                state.startState = true;
             }
         }
         return response;
@@ -116,6 +125,67 @@ public class DFA implements DFAInterface{
      */
     @Override
     public boolean accepts(String s) {
+        int count = s.length();
+        String []params = new String[count];
+        for (int i = 0; i < count; i++) {
+            params[i] = String.valueOf(s.charAt(i));
+        }
+
+        DFAState thisState = null;
+        for (DFAState state : states)
+        {
+            if (state.startState == true)
+            {
+                thisState = state; // Use thisState to follow transitions
+                break;
+            }
+        }
+
+        if (thisState == null)
+        {
+            return false;
+        }
+        boolean validTransition = false;
+        for (int i = 0; i < count; i++) { // Loop through each character of input params
+            validTransition = false;
+            for (Map.Entry<String, String[]> entry : thisState.transitions.entrySet()) { // Loops through each transition entry
+                try {
+                    for (String param : entry.getValue()) // Loops through each transition param per toState
+                    {
+                        if (param.equals(params[i])) // Found transition in param list
+                        {
+                            for (DFAState state : states)
+                            {
+                                if (state.getName().equals(entry.getKey()))
+                                {
+                                    thisState = state;
+                                    validTransition = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                        if (validTransition)
+                        {
+                            break;
+                        }
+                    }
+
+                } catch (NullPointerException npe)
+                {
+                    break;
+                }
+
+                if (validTransition)
+                {
+                    break;
+                }
+            }
+            if (i == count - 1 && (thisState.finalState == true) && validTransition) // if all params read, and ended on final state
+            {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -155,7 +225,7 @@ public class DFA implements DFAInterface{
     @Override
     public boolean isFinal(String name) {
         boolean response = false;
-        for(DFAState state : finalState){
+        for(DFAState state : finalStates){
             if(name.equals(state.getName())) { 
                 response = true;
             }
@@ -172,11 +242,10 @@ public class DFA implements DFAInterface{
     @Override
     public boolean isStart(String name) {
         boolean response = false;
-        for(DFAState state : startState){
-            if(name.equals(state.getName())) { 
-                response = true;
-            }
+        if(name.equals(startState.getName())) {
+            response = true;
         }
+
         return response;
     }
 
@@ -217,7 +286,7 @@ public class DFA implements DFAInterface{
                 if (fromState == state.getName())
                 { // State found, from-state == stateObjs[i]
                     // for (DFAState state : state.transitions.)
-                    try
+                   /* try
                     {
                         state.transitions.containsKey(toState);
                         // Iterate through to see if onSymb transition already exists
@@ -237,8 +306,8 @@ public class DFA implements DFAInterface{
                         String values[] = new String[50];  // TODO: Decide max symbols on single transition
                         values[0] = String.valueOf(onSymb);
                         state.transitions.put(toState, values);
-                    }
-                   /* if (state.transitions.containsKey(toState)) //  FIXME  Looks for string not state
+                    }*/
+                    if (state.transitions.containsKey(toState)) //  FIXME  Looks for string not state
                         // toState already exists in transition table
                     {
                         // Iterate through to see if onSymb transition already exists
@@ -251,14 +320,21 @@ public class DFA implements DFAInterface{
                         if (validTransition) // New transition added to value
                         {
                             state.transitions.get(toState)[state.transitions.get(toState).length] = String.valueOf(onSymb); // If new symb for transition, add to value
+                            if (state.startState == true)
+                            {
+                                startState = state;
+                            }
+                            if (state.finalState == true)
+                            {
+                                // TODO: Do we need to implement this? cause ew
+                            }
                         }
                     }
                     else { // toState not already in transition table, create new entry
-                        //validTransition = true;
                         String values[] = new String[50];  // TODO: Decide max symbols on single transition
                         values[0] = String.valueOf(onSymb);
                         state.transitions.put(toState, values);
-                    }*/
+                    }
                 }
             }
         }
@@ -277,30 +353,64 @@ public class DFA implements DFAInterface{
      */
     @Override
     public DFA swap(char symb1, char symb2) {
-        DFA swappedDfa = this; //swappedDfa.stateObjs[i].transitions.keySet()
+        //DFA swappedDfa = new DFA(this.startState, this.finalStates, this.states, this.sigma); //swappedDfa.stateObjs[i].transitions.keySet()
+        DFA swappedDfa = copyDfa(this); // TODO: Figure out how to copy by value and not reference so original dfa does not change!!!!!!!!!!!!!
+
         for (DFAState state : swappedDfa.states) { // For each state object
-                for (String key : state.transitions.keySet()) // Each transition set key/val pair
+                for (Map.Entry<String, String[]> entry : state.transitions.entrySet()) // Each transition set key/val pair
                 {
                     String[] subValue = new String[this.sigma.size()];
-                    for (int j = 0; j < state.transitions.get(key).length; j++) { // Each transition per key
-                        if (state.transitions.get(key)[j] == String.valueOf(symb1))
-                        {
-                            subValue[j] = String.valueOf(symb2);
+                    try {
+                        for (int j = 0; j < swappedDfa.sigma.size(); j++) { // Each transition per key
+                            if (entry.getValue()[j].equals(String.valueOf(symb1)))
+                            {
+                                subValue[j] = String.valueOf(symb2);
+                            }
+                            else if (entry.getValue()[j].equals(String.valueOf(symb2)))
+                            {
+                                subValue[j] = String.valueOf(symb1);
+                            }
+                            else {
+                                subValue[j] = entry.getValue()[j];
+                            }
                         }
-                        else if (state.transitions.get(key)[j] == String.valueOf(symb2))
-                        {
-                            subValue[j] = String.valueOf(symb1);
-                        }
-                        else {
-                            subValue[j] = state.transitions.get(key)[j];
-                        }
+                    } catch (NullPointerException npe)
+                    {
+
                     }
-                    state.transitions.replace(key, subValue); // TODO: max array size now set, but could change later....
+                    state.transitions.replace(entry.getKey(), subValue); // TODO: max array size now set, but could change later....
                 }
         }
         return swappedDfa;
     }
 
+    private DFA copyDfa(DFA dfa)
+    {
+        //public LinkedHashSet<DFAState> states; // I changed from String to State
+        // also thinking about ^this^ but with type as State, but that makes it hard....
+        //public LinkedHashSet<Character> sigma;
+        //public DFAState startState;
+        //public LinkedHashSet<DFAState> finalStates;
+        DFA newDfa = new DFA();
+
+        LinkedHashSet states = new LinkedHashSet<DFAState>();
+        states = dfa.states;
+        newDfa.states = states;
+
+        LinkedHashSet sigma = new LinkedHashSet<Character>();
+        sigma = dfa.sigma;
+        newDfa.sigma = sigma;
+
+        String name = dfa.startState.getName();
+        DFAState start = new DFAState(name);
+        newDfa.startState = start;
+
+        LinkedHashSet finals = new LinkedHashSet<DFAState>();
+        finals = dfa.finalStates;
+        newDfa.finalStates = finals;
+
+        return newDfa;
+    }
 
     /**
      * @author Caitlyn
@@ -336,7 +446,7 @@ public class DFA implements DFAInterface{
         System.out.println("Sigma = {" + printAlphabet + "}");
         System.out.println("Delta = "); //TODO stil not sure how we want transitions to go yet
         System.out.println("q0 = " + startState);
-        System.out.println("F = {" + finalState + "}");
+        System.out.println("F = {" + finalStates + "}");
         return "";
     }
     
