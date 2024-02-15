@@ -437,6 +437,7 @@ public class DFA implements DFAInterface{
         String printStates = "";
         String printAlphabet = "";
         String printFinals = "";
+        String printAlpha = "";
         for(DFAState state : states){
             printStates+= state.getName() + " ";
         }
@@ -446,9 +447,42 @@ public class DFA implements DFAInterface{
         for(DFAState f : finalStates){
             printFinals += f.getName() + " ";
         }
+        for(Character a: sigma){
+            printAlpha+= a + "   ";
+        }
         System.out.println("Q = {" + " " + printStates + "}");
         System.out.println("Sigma = {" + " " + printAlphabet + "}");
-        System.out.println("delta = "); //TODO stil not sure how we want transitions to go yet
+        
+        
+        System.out.println("delta =");
+        System.out.println("     " + printAlpha);
+        String [] subSigma = new String[this.sigma.size()];
+        for(Character c: sigma){
+            for(int i = 0; i < subSigma.length; i++){
+                subSigma[i] = String.valueOf(c);
+            }
+        }
+        for(DFAState s : states){
+            System.out.print(" " + s.getName() + "   ");
+            for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) // Each toState with it's respective transitions
+            {
+                try{
+                    for (int i = 0; i < sigma.size(); i++) { // Each transition
+                        for (int j = 0; j < sigma.size(); j++){ //Each sigma value
+                            if(entry.getValue()[i].equals(String.valueOf(subSigma[j]))){
+                                System.out.print(entry.getKey() + "   ");
+                            }
+                        }
+                    }
+                }
+                catch (NullPointerException npe)
+                {
+                    break;
+                }
+
+            }
+            System.out.println();
+        }
         System.out.println("q0 = " + startState);
         System.out.println("F = {" + " " + printFinals + "}");
         return "";
