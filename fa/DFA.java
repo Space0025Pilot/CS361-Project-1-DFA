@@ -436,17 +436,21 @@ public class DFA implements DFAInterface{
         // the same order as they added to a DFA in a test case.
         String printStates = "";
         String printAlphabet = "";
+        String printFinals = "";
         for(DFAState state : states){
             printStates+= state.getName() + " ";
         }
         for(Character alpha: sigma){
             printAlphabet+= alpha + " ";
         }
-        System.out.println("Q = {" + printStates + "}");
-        System.out.println("Sigma = {" + printAlphabet + "}");
+        for(DFAState f : finalStates){
+            printFinals += f.getName() + " ";
+        }
+        System.out.println("Q = {" + " " + printStates + "}");
+        System.out.println("Sigma = {" + " " + printAlphabet + "}");
         System.out.println("Delta = "); //TODO stil not sure how we want transitions to go yet
         System.out.println("q0 = " + startState);
-        System.out.println("F = {" + finalStates + "}");
+        System.out.println("F = {" + " " + printFinals + "}");
         return "";
     }
     
