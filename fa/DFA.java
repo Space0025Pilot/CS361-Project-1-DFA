@@ -1,9 +1,7 @@
 package fa;
 
-import java.util.LinkedHashSet;
+import java.util.*;
 // import java.util.Hashtable; // For transitions
-import java.util.Map;
-import java.util.Set; // DFA elements that are sets, e.g., set of states Q, must be implemented
 
 import fa.dfa.DFAInterface;
 // import fa.DFAState;
@@ -386,28 +384,45 @@ public class DFA implements DFAInterface{
 
     private DFA copyDfa(DFA dfa)
     {
-        //public LinkedHashSet<DFAState> states; // I changed from String to State
-        // also thinking about ^this^ but with type as State, but that makes it hard....
-        //public LinkedHashSet<Character> sigma;
-        //public DFAState startState;
-        //public LinkedHashSet<DFAState> finalStates;
         DFA newDfa = new DFA();
 
-        LinkedHashSet<DFAState> states = new LinkedHashSet<DFAState>();
-        states = dfa.states;
-        newDfa.states = states;
+        LinkedHashSet<DFAState> newStates = new LinkedHashSet<DFAState>();
+        for (DFAState state : dfa.states) // copy each state
+        {
+            DFAState addState = new DFAState(state.getName());
+            Hashtable<String, String[]> newHashTable = new Hashtable<String, String[]>();
+            for (Map.Entry<String, String[]> entry : state.transitions.entrySet()) // Copy each states transitions
+            {
+                newHashTable.put(entry.getKey(), entry.getValue());
+            }
+            addState.transitions = newHashTable;
+            addState.startState = state.startState;
+            addState.finalState = state.finalState;
+            newStates.add(addState);
+        }
+        newDfa.states = newStates;
+
 
         LinkedHashSet<Character> sigma = new LinkedHashSet<Character>();
-        sigma = dfa.sigma;
+        for (char sig : dfa.sigma)
+        {
+            sigma.add(sig);
+        }
         newDfa.sigma = sigma;
 
-        String name = dfa.startState.getName();
-        DFAState start = new DFAState(name);
-        newDfa.startState = start;
-
-        LinkedHashSet<DFAState> finals = new LinkedHashSet<DFAState>();
-        finals = dfa.finalStates;
-        newDfa.finalStates = finals;
+        LinkedHashSet<DFAState> newFinalStates = new LinkedHashSet<DFAState>();
+        for (DFAState state : newDfa.states)
+        {
+            if (state.startState)
+            {
+                newDfa.startState = state;
+            }
+            if (state.finalState)
+            {
+                newFinalStates.add(state);
+            }
+        }
+        newDfa.finalStates = newFinalStates;
 
         return newDfa;
     }
