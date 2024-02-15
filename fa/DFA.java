@@ -54,13 +54,12 @@ public class DFA implements DFAInterface{
         else {
             for(DFAState state : states){
                 if(name.equals(state.getName())) {
-                    response = false;
-                    return response;
+                    return false;
                 }
-                response = true;
-                DFAState newState = new DFAState(name);
-                states.add(newState);
             }
+            response = true;
+            DFAState newState = new DFAState(name);
+            states.add(newState);
         }
 
         return response;
@@ -260,11 +259,11 @@ public class DFA implements DFAInterface{
         boolean validTransition = false;
         int checks = 0;
         for (DFAState state : states) {
-            if (state.getName() == fromState)
+            if (state.getName().equals(fromState))
             {
                 checks++;
             }
-            if (state.getName() == toState)
+            if (state.getName().equals(toState))
             {
                 checks++;
             }
@@ -281,7 +280,7 @@ public class DFA implements DFAInterface{
         {   // add transition to State's transition hash table
 
             for (DFAState state : states) { // Find state to add transition entry to (from-state)
-                if (fromState == state.getName())
+                if (fromState.equals(state.getName()))
                 { // State found, from-state == stateObjs[i]
                     // for (DFAState state : state.transitions.)
                    /* try
@@ -310,14 +309,26 @@ public class DFA implements DFAInterface{
                     {
                         // Iterate through to see if onSymb transition already exists
                         for (int j = 0; j < state.transitions.get(toState).length; j++) {
-                            if (state.transitions.get(toState)[j] == String.valueOf(onSymb))
+                            if (state.transitions.get(toState)[j] == null)
+                            {
+                                break;
+                            }
+                            if (state.transitions.get(toState)[j].equals(String.valueOf(onSymb)))
                             {
                                 validTransition = false;
                             }
                         }
                         if (validTransition) // New transition added to value
                         {
-                            state.transitions.get(toState)[state.transitions.get(toState).length] = String.valueOf(onSymb); // If new symb for transition, add to value
+                            int index = 0;
+                            for (int i = 0; i < this.sigma.size(); i++) {
+                                if (state.transitions.get(toState)[i] == null)
+                                {
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            state.transitions.get(toState)[index] = String.valueOf(onSymb); // If new symb for transition, add to value
                             if (state.startState == true)
                             {
                                 startState = state;
@@ -427,6 +438,14 @@ public class DFA implements DFAInterface{
         return newDfa;
     }
 
+    /*
+    for each state (in order of print table
+	for each sigma (in order, or reverse order? of print table))
+		for each transition entry of state
+			for each String in entry.value()
+				if(String == String(sigma))
+					print entry.key() (the toState for transition)
+     */
     /**
      * @author Caitlyn
 	 * Construct the textual representation of the DFA, for example
