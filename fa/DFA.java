@@ -502,7 +502,7 @@ public class DFA implements DFAInterface{
 
         //     }
         //     System.out.println();
-        // }
+        }
         System.out.println("q0 = " + startState);
         System.out.println("F = {" + " " + printFinals + "}");
         return "";
