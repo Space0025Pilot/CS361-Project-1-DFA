@@ -472,32 +472,37 @@ public class DFA implements DFAInterface{
         System.out.println("delta =");
         System.out.println("     " + printAlpha);
         String [] subSigma = new String[this.sigma.size()];
+        int index = 0;
         for(Character c: sigma){
-            for(int i = 0; i < subSigma.length; i++){
-                subSigma[i] = String.valueOf(c);
-            }
+            subSigma[index] = String.valueOf(c);
+            index++;
         }
         for(DFAState s : states){
             System.out.print(" " + s.getName() + "   ");
-            for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) // Each toState with it's respective transitions
-            {
-                try{
-                    for (int i = 0; i < sigma.size(); i++) { // Each transition
-                        for (int j = 0; j < sigma.size(); j++){ //Each sigma value
-                            if(entry.getValue()[i].equals(String.valueOf(subSigma[j]))){
-                                System.out.print(entry.getKey() + "   ");
-                            }
-                        }
-                    }
-                }
-                catch (NullPointerException npe)
-                {
-                    break;
-                }
+            // for();
+        //     for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) // Each toState with it's respective transitions
+        //     {
+        //         try{
+        //             for (int i = subSigma.length; i >= 0; i--) { // Each transition
+        //                 if(subSigma[i].equals(entry.getValue()[i])){
+        //                     System.out.print(entry.getKey() + "   ");
+        //                 }
+        //             //    String c = "";
+        //             //    c = entry.getValue()[i];
+        //             //    if(c != null){
+        //             //     System.out.print(entry.getKey() + "   ");
+        //             //    }
+        //             }
+        //         }
+        //         catch (NullPointerException npe)
+        //         {
+        //             break;
+        //         }
+                
 
-            }
-            System.out.println();
-        }
+        //     }
+        //     System.out.println();
+        // }
         System.out.println("q0 = " + startState);
         System.out.println("F = {" + " " + printFinals + "}");
         return "";
