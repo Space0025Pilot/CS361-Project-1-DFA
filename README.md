@@ -6,12 +6,18 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. Please don't just cut and
-paste, but paraphrase what is stated in the project specification.
+The program models and implements a deterministic finite automata.
 
 ## Reflection
+
+Caitlyn Reflection
+I would say that this project was an ok project. Initially, I really had a hard time getting started as I felt it wasn't clear on exactly what we needed to do. Quite a bit of the project was left open for interpretation and design so that made it a bit more difficult when asking for guidance at specific points in the project. What worked well was the files that were given to us and how to structure them! I found this the easiest part of the project. One of the techniques we used was to try and make our code as simple as possible that way when we went back for testing that it was only minor changes to the code and we had an easier time figuring out where and what the problem was. The debugger was helpful to figure out what problems where going on. When it throws an exception or the like it is had to truly know what you need to fix until you can get into the code and see exactly what it is doing and whether or not that matches up with what we believe and need it to do. 
+The overall design process I think I would do some psuedocode and draw it out first next time. That way I can better build a foundation for myself just by way of understanding the project and beginning the initial work with it. If I could go back in time, I would tell myself to start earlier and draw it out first before just jumping into the code.
+
+Olivia Reflection
+
+
+
 
 Write a brief (2-3 paragraph) reflection describing your experience with this 
 project. Answer the following questions (but feel free to add other insights): 
@@ -23,19 +29,8 @@ project. Answer the following questions (but feel free to add other insights):
 
 ## Compiling and Using
 
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
+There isn't any user input required for this code. It is tested through the test cases.
 
 ## Sources used
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. So be safe CITE!
-
-----------
-This README template is using Markdown. To preview your README output,
-you can copy your file contents to a Markdown editor/previewer such
-as [https://stackedit.io/editor](https://stackedit.io/editor).
+None other than the instruction guide, java documentation, and the professor.
