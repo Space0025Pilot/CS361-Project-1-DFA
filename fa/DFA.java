@@ -151,11 +151,13 @@ public class DFA implements DFAInterface{
                     {
                         if (param.equals(params[i])) // Found transition in param list
                         {
-                            for (DFAState state : states)
+                            for (DFAState state : states) // Go through states
                             {
-                                if (state.getName().equals(entry.getKey()))
+                                if (state.getName().equals(entry.getKey())) // find state that corresponds to our toState
                                 {
-                                    thisState = state;
+                                    thisState = state; // Follow new state through valid transition
+                                    thisState.startState = state.startState;
+                                    thisState.finalState = state.finalState;
                                     validTransition = true;
                                     break;
                                 }
@@ -170,7 +172,7 @@ public class DFA implements DFAInterface{
 
                 } catch (NullPointerException npe)
                 {
-                    break;
+                    continue;
                 }
 
                 if (validTransition)
