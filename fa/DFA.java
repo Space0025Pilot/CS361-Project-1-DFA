@@ -439,15 +439,7 @@ public class DFA implements DFAInterface{
 
         return newDfa;
     }
-
-    /*
-    for each state (in order of print table
-	for each sigma (in order, or reverse order? of print table))
-		for each transition entry of state
-			for each String in entry.value()
-				if(String == String(sigma))
-					print entry.key() (the toState for transition)
-     */
+    
     /**
      * @author Caitlyn
 	 * Construct the textual representation of the DFA, for example
@@ -498,16 +490,12 @@ public class DFA implements DFAInterface{
             subSigma[index] = String.valueOf(c);
             index++;
         }
-        //TODO I think the way that these are added to the table is stumping me. I did the psuedocode however I am then crashing it.
 
         for(DFAState s : states){  //Each state in the state linked hashset
             System.out.print(" " + s.getName() + "   ");
             for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) {
                 try{
                     for (int i = 0; i < subSigma.length; i++) { // Each transition
-                        // if(subSigma[i].equals(entry.getValue()[i])){
-                        //     System.out.print(entry.getKey() + "   ");
-                        // }
                        String c = "";
                        c = entry.getValue()[i];
                        if(c != null){
