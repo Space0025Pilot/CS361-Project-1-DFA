@@ -15,7 +15,8 @@ I would say that this project was an ok project. Initially, I really had a hard 
 The overall design process I think I would do some psuedocode and draw it out first next time. That way I can better build a foundation for myself just by way of understanding the project and beginning the initial work with it. If I could go back in time, I would tell myself to start earlier and draw it out first before just jumping into the code.
 
 Olivia Reflection
-
+<p>I really liked this project. First it was a little rough when we were deciding what types of sets to use and what all would work well together. After I got it layed out, I ran into snags when coding the more complecated things so I changed some of the things we had layed out before to better align with how our methods would access the data. I liked getting to take something from class that's more conceptual and being able to create it in a program. I don't think there were any concepts that weren't/aren't clear for me.</p>
+<p>It was a little tedious but really gradifying to implement the harder methods like swap, addTransition, and accept, because thinking through it step by step is easy, but implementing it was a bit more involved. But once I got it, I was really proud of it. What really helped me was starting with a pseudocode outline idea and making sure to comment what each nested loop was doing. The tests allowed me to find simple bugs in my methods that were pretty easy to fix. I wouldn't change much about the design process, but I would spend more time in the beginning to really make sure it was well conceptualized and layed out and understood, and to have a roadmap of sorts. If I could go back and tell myself about this project, I would say to make sure to know how to iterate through things in the order it was made early, to ensure you can do it, and that the setup allows it. Overall I really liked this programming project.</p>
 
 
 
