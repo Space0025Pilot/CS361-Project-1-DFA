@@ -1,16 +1,12 @@
 package fa;
 
 import java.util.*;
-// import java.util.Hashtable; // For transitions
-
 import fa.dfa.DFAInterface;
-// import fa.DFAState;
 
 public class DFA implements DFAInterface{
 
     /* Variables */
-    public LinkedHashSet<DFAState> states; // I changed from String to State
-    // also thinking about ^this^ but with type as State, but that makes it hard....
+    public LinkedHashSet<DFAState> states;
     public LinkedHashSet<Character> sigma;
     public DFAState startState;
     public LinkedHashSet<DFAState> finalStates;
@@ -283,7 +279,7 @@ public class DFA implements DFAInterface{
             for (DFAState state : states) { // Find state to add transition entry to (from-state)
                 if (fromState.equals(state.getName()))
                 { // State found, from-state == stateObjs[i]
-                    if (state.transitions.containsKey(toState)) //  FIXME  Looks for string not state
+                    if (state.transitions.containsKey(toState))
                         // toState already exists in transition table
                     {
                         // Iterate through to see if onSymb transition already exists
@@ -294,7 +290,6 @@ public class DFA implements DFAInterface{
                             }
                             if (state.transitions.get(toState)[j].equals(String.valueOf(onSymb)))
                             {
-                                // validTransition = false;
                                 return true;
                             }
                         }
@@ -315,12 +310,12 @@ public class DFA implements DFAInterface{
                             }
                             if (state.finalState == true)
                             {
-                                // TODO: Do we need to implement this? cause ew
+                                
                             }
                         }
                     }
                     else { // toState not already in transition table, create new entry
-                        String values[] = new String[50];  // TODO: Decide max symbols on single transition
+                        String values[] = new String[50];
                         values[0] = String.valueOf(onSymb);
                         state.transitions.put(toState, values);
                     }
@@ -342,8 +337,7 @@ public class DFA implements DFAInterface{
      */
     @Override
     public DFA swap(char symb1, char symb2) {
-        //DFA swappedDfa = new DFA(this.startState, this.finalStates, this.states, this.sigma); //swappedDfa.stateObjs[i].transitions.keySet()
-        DFA swappedDfa = copyDfa(this); // TODO: Figure out how to copy by value and not reference so original dfa does not change!!!!!!!!!!!!!
+        DFA swappedDfa = copyDfa(this);
 
         for (DFAState state : swappedDfa.states) { // For each state object
                 for (Map.Entry<String, String[]> entry : state.transitions.entrySet()) // Each transition set key/val pair
@@ -367,7 +361,7 @@ public class DFA implements DFAInterface{
                     {
 
                     }
-                    state.transitions.replace(entry.getKey(), subValue); // TODO: max array size now set, but could change later....
+                    state.transitions.replace(entry.getKey(), subValue);
                 }
         }
         return swappedDfa;
@@ -417,7 +411,7 @@ public class DFA implements DFAInterface{
 
         return newDfa;
     }
-    
+
     /**
      * @author Caitlyn
 	 * Construct the textual representation of the DFA, for example
