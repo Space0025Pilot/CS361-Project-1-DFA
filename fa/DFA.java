@@ -413,7 +413,7 @@ public class DFA implements DFAInterface{
     }
 
     /**
-     * @author Caitlyn
+     * @author Caitlyn & Olivia
 	 * Construct the textual representation of the DFA, for example
 	 * A simple two state DFA
 	 * Q = { a b }
