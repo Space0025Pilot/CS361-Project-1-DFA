@@ -342,8 +342,7 @@ public class DFA implements DFAInterface{
      */
     @Override
     public DFA swap(char symb1, char symb2) {
-        //DFA swappedDfa = new DFA(this.startState, this.finalStates, this.states, this.sigma); //swappedDfa.stateObjs[i].transitions.keySet()
-        DFA swappedDfa = copyDfa(this); // TODO: Figure out how to copy by value and not reference so original dfa does not change!!!!!!!!!!!!!
+        DFA swappedDfa = copyDfa(this);
 
         for (DFAState state : swappedDfa.states) { // For each state object
                 for (Map.Entry<String, String[]> entry : state.transitions.entrySet()) // Each transition set key/val pair
@@ -367,7 +366,7 @@ public class DFA implements DFAInterface{
                     {
 
                     }
-                    state.transitions.replace(entry.getKey(), subValue); // TODO: max array size now set, but could change later....
+                    state.transitions.replace(entry.getKey(), subValue);
                 }
         }
         return swappedDfa;
@@ -440,6 +439,7 @@ public class DFA implements DFAInterface{
     {
         // The states and the symbols must appear in
         // the same order as they added to a DFA in a test case.
+        String output = "";
         String printStates = "";
         String printAlphabet = "";
         String printFinals = "";
@@ -450,18 +450,24 @@ public class DFA implements DFAInterface{
         for(Character alpha: sigma){
             printAlphabet+= alpha + " ";
         }
+        printAlphabet = printAlphabet.trim();
         for(DFAState f : finalStates){
             printFinals += f.getName() + " ";
         }
         for(Character a: sigma){
             printAlpha+= a + "   ";
         }
-        System.out.println("Q = {" + " " + printStates + "}");
-        System.out.println("Sigma = {" + " " + printAlphabet + "}");
-        
+        System.out.println("Q = {" + printStates.trim() + "}");
+        output = output.concat("Q = {" + printStates.trim() + "}");
+        System.out.println("Sigma = {" + printAlphabet + "}");
+        output = output.concat("Sigma = {" + printAlphabet + "}");
         
         System.out.println("delta =");
-        System.out.println("     " + printAlpha);
+        output = output.concat("delta =" + "\n");
+
+        System.out.println(" " + "\t" + printAlpha.trim());
+        output = output.concat(" " + "\t" + printAlpha.trim() + "\n");
+
         String [] subSigma = new String[this.sigma.size()];
         int index = 0;
         for(Character c: sigma){
@@ -470,27 +476,37 @@ public class DFA implements DFAInterface{
         }
 
         for(DFAState s : states){  //Each state in the state linked hashset
-            System.out.print(" " + s.getName() + "   ");
+            System.out.print(s.getName() + "   ");
+            output = output.concat(s.getName() + "   ");
+
+            String toStates = "";
             for(Map.Entry<String, String[]> entry : s.transitions.entrySet()) {
                 try{
+
                     for (int i = 0; i < subSigma.length; i++) { // Each transition
                        String c = "";
                        c = entry.getValue()[i];
                        if(c != null){
-                        System.out.print(entry.getKey() + "   ");
+                            toStates = toStates.concat(entry.getKey() + "   ");
+
                        }
                     }
+
                 }
                 catch (NullPointerException npe)
                 {
                     break;
                 }
             }
-            System.out.println();
+            System.out.println(toStates.trim());
+            output = output.concat(toStates.trim() + "\n");
         }
         System.out.println("q0 = " + startState);
-        System.out.println("F = {" + " " + printFinals + "}");
-        return "";
+        output = output.concat("q0 = " + startState + "\n");
+        System.out.print("F = {" + printFinals.trim() + "}");
+        output = output.concat("F = {" + printFinals.trim() + "}");
+        return output;
+        //return "";
     }
     
 }
