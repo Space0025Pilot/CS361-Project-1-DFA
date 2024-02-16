@@ -280,32 +280,9 @@ public class DFA implements DFAInterface{
         }
         if (validTransition)
         {   // add transition to State's transition hash table
-
             for (DFAState state : states) { // Find state to add transition entry to (from-state)
                 if (fromState.equals(state.getName()))
                 { // State found, from-state == stateObjs[i]
-                    // for (DFAState state : state.transitions.)
-                   /* try
-                    {
-                        state.transitions.containsKey(toState);
-                        // Iterate through to see if onSymb transition already exists
-                        for (int j = 0; j < state.transitions.get(toState).length; j++) {
-                            if (state.transitions.get(toState)[j] == String.valueOf(onSymb))
-                            {
-                                validTransition = false;
-                            }
-                        }
-                        if (validTransition) // New transition added to value
-                        {
-                            state.transitions.get(toState)[state.transitions.get(toState).length] = String.valueOf(onSymb); // If new symb for transition, add to value
-                        }
-                    }
-                    catch (NullPointerException npe)
-                    {
-                        String values[] = new String[50];  // TODO: Decide max symbols on single transition
-                        values[0] = String.valueOf(onSymb);
-                        state.transitions.put(toState, values);
-                    }*/
                     if (state.transitions.containsKey(toState)) //  FIXME  Looks for string not state
                         // toState already exists in transition table
                     {
@@ -317,7 +294,8 @@ public class DFA implements DFAInterface{
                             }
                             if (state.transitions.get(toState)[j].equals(String.valueOf(onSymb)))
                             {
-                                validTransition = false;
+                                // validTransition = false;
+                                return true;
                             }
                         }
                         if (validTransition) // New transition added to value
