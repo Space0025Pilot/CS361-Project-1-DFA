@@ -1,7 +1,8 @@
-package fa;
+package fa.dfa;
 
 import java.util.*;
-import fa.dfa.DFAInterface;
+
+import fa.State;
 
 public class DFA implements DFAInterface{
 

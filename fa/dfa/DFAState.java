@@ -1,8 +1,10 @@
-package fa;
+package fa.dfa;
+
+import fa.State;
 
 import java.util.Hashtable;
 
-public class DFAState extends State{
+public class DFAState extends State {
     // Variables
     public Hashtable<String, String[]> transitions;
     boolean startState;
